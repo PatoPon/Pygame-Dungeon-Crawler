@@ -1,0 +1,16 @@
+{
+    "name": "R",
+    "level": 1,
+    "race": "Humano",
+    "classe": "Guerreiro",
+    "atributos": {
+        "strength": 5,
+        "intellect": 5,
+        "perception": 5,
+        "luck": 5
+    },
+    "health": {
+        "maxHP": 100.0,
+        "HP": 100.0
+    }
+}

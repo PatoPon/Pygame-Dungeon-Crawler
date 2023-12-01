@@ -1,32 +1,49 @@
-import curses
-from atributosJogador import Player
-from curses.textpad import Textbox, rectangle
+import pygame
+import json
+from pygame.locals import QUIT
 
-import random
 
-def desenharStatus(janela):
-    # Configuração inicial do curses
-    curses.curs_set(0)
+def desenharStatus(surface):
 
-    height, width = janela.getmaxyx() 
+    fonteNome = pygame.font.Font("Essays1743.ttf", 20)
+    fonteAtributos = pygame.font.Font("Essays1743.ttf", 16)
 
-    # Loop principal do jogo
-    while True:
+    try:
+        with open("Dados\\dadosJogador.json", 'r') as arquivo_jogador:
+            playerData = json.load(arquivo_jogador)
 
-        janela.erase()
+        width, height = surface.get_size()
 
-        jogador = Player(strength=7, intellect=8, perception=12, luck=5, race="Elfo", specialization="Mago")
+        surface.fill((0, 0, 0))
+        pygame.draw.rect(surface, (255, 255, 255), (0, 0, width, height), 2)
 
-        # Desenhar a barra de janela
-        janela.addstr(1, 1, "Status:")
+        jogador_info = [
+            f"{playerData['name']} o {playerData['classe']} {playerData['race']}",
+            f"Level {playerData['level']}",
+            f"Força: {playerData['atributos']['strength']}",
+            f"Inteligência: {playerData['atributos']['intellect']}",
+            f"Percepção: {playerData['atributos']['perception']}",
+            f"Sorte: {playerData['atributos']['luck']}"
+        ]
 
-        janela.addstr(2, 1, f"Força: {jogador.strength}")
-        janela.addstr(3, 1, f"Inteligência: {jogador.intellect}")
-        janela.addstr(4, 1, f"Percepção: {jogador.perception}")
-        janela.addstr(5, 1, f"Sorte: {jogador.luck}")
-        janela.addstr(6, 1, f"Raça: {jogador.race}")
-        janela.addstr(7, 1, f"Especialização: {jogador.specialization}")
+        jogador_status = [
+            f"HP: {playerData['health']['HP']} / {playerData['health']['maxHP']}"
+        ]
 
-        janela.border()
+        nome = fonteNome.render(jogador_info[0], True, (255, 255, 255))
+        surface.blit(nome, (10, 0 * 30))
 
-        janela.refresh()
+        for i in range(1, len(jogador_info)):
+            texto_surface = fonteAtributos.render(
+                jogador_info[i], True, (255, 255, 255))
+            surface.blit(texto_surface, (10, 8 + i * 16))
+
+        for i, info in enumerate(jogador_status):
+            texto_surface = fonteAtributos.render(info, True, (255, 255, 255))
+            surface.blit(texto_surface, ((
+                width // 2 - texto_surface.get_width() // 2) - 70, 6))
+
+    except FileNotFoundError:
+        texto_surface = fonteNome.render(
+            "Arquivo 'dadosJogador.json' não encontrado.", True, (255, 255, 255))
+        surface.blit(texto_surface, (10, 10))

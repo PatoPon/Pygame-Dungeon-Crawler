@@ -1,90 +1,68 @@
-import curses
-from curses import wrapper
+import pygame
+import sys
 
-import threading
+from criacaoDePersonagem import *
 
-from mundoInterface import desenharMundo
-from atributosInterface import desenharStatus
+TITULO = "Abyssal Descent"
 
-TITULO = [
-    "___ _  _ ____    ____ ___  _   _ ____ ____ ____ _       ____ _  _ ___  ____ ___  _ ___ _ ____ _  _",
-    " |  |__| |___    |__| |__]  \_/  [__  [__  |__| |       |___  \/  |__] |___ |  \ |  |  | |  | |\ |",
-    " |  |  | |___    |  | |__]   |   ___] ___] |  | |___    |___ _/\_ |    |___ |__/ |  |  | |__| | \|",
-]
+# Inicializa o Pygame
+pygame.init()
 
-def main(stdscr):
-    stdscr.clear()
-    curses.curs_set(0)
-    
-    OPCOES = ["Jogar", "Sair"]
-    
-    opcaoAtual = 0
-    
-    while True:
-        stdscr.clear()
+# Definindo as cores
+PRETO = (0, 0, 0)
+BRANCO = (255, 255, 255)
 
-        HEIGHT, WIDTH = stdscr.getmaxyx()
-        
-        X = (WIDTH - max(len(opcao) for opcao in OPCOES)) // 2
-        Y = (HEIGHT // 2) + 7
+# Definindo as dimensões da tela
+LARGURA, ALTURA = 800, 600
+tela = pygame.display.set_mode((LARGURA, ALTURA))
+pygame.display.set_caption('Menu')
 
-        for i, linha in enumerate(TITULO):
-            stdscr.addstr(Y - 10 + i, (WIDTH - len(linha)) // 2, linha)
+# Carrega a fonte padrão do Pygame
+fonte = pygame.font.Font(None, 36)
 
-        caixa_x = X - 1
-        caixa_y = Y - 1
-        caixa_height = len(OPCOES) + 4
-        caixa_width = max(len(opcao) for opcao in OPCOES) + 4
-        
-        stdscr.box()
-        stdscr.hline(caixa_y, caixa_x + 1, curses.ACS_HLINE, caixa_width - 2)
-        stdscr.hline(caixa_y + caixa_height - 1, caixa_x + 1, curses.ACS_HLINE, caixa_width - 2)
-        stdscr.vline(caixa_y + 1, caixa_x, curses.ACS_VLINE, caixa_height - 2)
-        stdscr.vline(caixa_y + 1, caixa_x + caixa_width - 1, curses.ACS_VLINE, caixa_height - 2)
-        
-        for i, opcao in enumerate(OPCOES):
-            if i == opcaoAtual:
-                stdscr.addstr(Y + (i + 1), X, f"> {opcao}", curses.A_STANDOUT)
-            else:
-                stdscr.addstr(Y + (i + 1), X, f"  {opcao}")
-        
-        stdscr.refresh()
-        
-        key = stdscr.getch()
-        
-        if key == curses.KEY_UP:
-            opcaoAtual = (opcaoAtual - 1) % len(OPCOES)
-        elif key == curses.KEY_DOWN:
-            opcaoAtual = (opcaoAtual + 1) % len(OPCOES)
-        elif key == 10:
-            opcaoSelecionada = OPCOES[opcaoAtual]
-            
-            if opcaoSelecionada == "Jogar":
+OPCOES = ["Jogar", "Sair"]
+opcaoAtual = 0
 
-                stdscr.clear()
+while True:
+    for evento in pygame.event.get():
+        if evento.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-                mundoWidth = WIDTH * 3 // 4
+        elif evento.type == pygame.KEYDOWN:
+            if evento.key == pygame.K_UP:
+                opcaoAtual = (opcaoAtual - 1) % len(OPCOES)
+            elif evento.key == pygame.K_DOWN:
+                opcaoAtual = (opcaoAtual + 1) % len(OPCOES)
+            elif evento.key == pygame.K_RETURN:
+                opcaoSelecionada = OPCOES[opcaoAtual]
 
-                janela = curses.newwin(HEIGHT,mundoWidth, 0, 0)
+                if opcaoSelecionada == "Jogar":
+                    # Chame aqui a função para criar o personagem usando o Pygame
+                    jogador = Player()
+                    escolherNome(jogador)
+                    escolherRaca(jogador)
+                    escolherClasse(jogador)
+                    escolherAtributos(jogador)
+                    salvarJogador(jogador, 'Dados\\dadosJogador.json')
 
-                mundo_thread = threading.Thread(target=desenharMundo, args=(janela,))
+                    main_menu()
 
-                statusWidth = WIDTH - mundoWidth
-                xStart = 0 + mundoWidth
+                elif opcaoSelecionada == "Sair":
+                    pygame.quit()
+                    sys.exit()
 
-                janela2 = curses.newwin(HEIGHT, statusWidth, 0, xStart)
+    tela.fill(PRETO)
 
-                atributos_thread = threading.Thread(target=desenharStatus, args=(janela2,))
+    # Desenha o título
+    for i, linha in enumerate(TITULO):
+        texto = fonte.render(linha, True, BRANCO)
+        tela.blit(texto, ((LARGURA - texto.get_width()) // 2, (ALTURA // 2) + 7 - 10 + i * 30))
 
-                atributos_thread.start()
-                mundo_thread.start()
+    # Desenha as opções
+    for i, opcao in enumerate(OPCOES):
+        cor = BRANCO if i == opcaoAtual else PRETO
+        texto = fonte.render(opcao, True, cor)
+        tela.blit(texto, ((LARGURA - texto.get_width()) // 2, (ALTURA // 2) + (i + 1) * 30))
 
-                atributos_thread.join()
-                mundo_thread.join()
-
-                break
-
-            elif opcaoSelecionada == "Sair":
-                break
-
-wrapper(main)
+    pygame.display.flip()

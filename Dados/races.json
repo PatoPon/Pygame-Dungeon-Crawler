@@ -1,0 +1,32 @@
+{
+    "Humano": {
+        "descricao": "Humanos são uma raça versátil conhecida por sua adaptabilidade e diversidade cultural."
+    },
+    "Elfo": {
+        "descricao": "Elfos são seres graciosos e imortais, conhecidos por sua conexão com a natureza e habilidades mágicas."
+    },
+    "Anão": {
+        "descricao": "Anões são conhecidos por sua força, resistência e habilidade em trabalhos com metais e pedras preciosas."
+    },
+    "Orc": {
+        "descricao": "Orcs são uma raça guerreira e brutal, famosa por sua força física e ferocidade em combate."
+    },
+    "Drow": {
+        "descricao": "Drows são elfos negros, frequentemente associados com a escuridão e magia sombria."
+    },
+    "Gnomo": {
+        "descricao": "Gnomos são criaturas pequenas e engenhosas, com grande habilidade em inventar e criar."
+    },
+    "Draconiano": {
+        "descricao": "Draconianos têm traços de dragão e são conhecidos por sua resistência e habilidades draconianas."
+    },
+    "Tiefling": {
+        "descricao": "Tieflings são descendentes de seres infernais e possuem traços demoníacos, incluindo chifres e caudas."
+    },
+    "Meio-elfo": {
+        "descricao": "Meio-elfos são uma mistura de humanos e elfos, possuindo características de ambas as raças."
+    },
+    "Halfling": {
+        "descricao": "Halflings são pequenos e ágeis, conhecidos por sua astúcia e habilidade em escapar de situações difíceis."
+    }
+}

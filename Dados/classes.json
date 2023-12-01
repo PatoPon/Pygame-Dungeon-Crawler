@@ -1,0 +1,29 @@
+{
+    "Guerreiro": {
+        "descricao": "Guerreiros são combatentes habilidosos, conhecidos por sua força e resistência em combate."
+    },
+    "Mago": {
+        "descricao": "Magos são mestres da magia, capazes de lançar feitiços poderosos."
+    },
+    "Ladino": {
+        "descricao": "Ladinos são especialistas em furtividade e astúcia, habilidosos em desarmar armadilhas e roubar."
+    },
+    "Clerigo": {
+        "descricao": "Clerigos são servos de divindades, capazes de conjurar magias divinas e curar ferimentos."
+    },
+    "Arqueiro": {
+        "descricao": "Arqueiros são especialistas em combate à distância, dominando o arco e flecha."
+    },
+    "Bárbaro": {
+        "descricao": "Bárbaros são selvagens e ferozes em combate, capazes de entrar em fúria para causar estragos."
+    },
+    "Druida": {
+        "descricao": "Druidas são sábios da natureza, conectados com animais e capazes de invocar poderes naturais."
+    },
+    "Feiticeiro": {
+        "descricao": "Feiticeiros nascem com habilidades mágicas inatas, não precisam de livros de magia para conjurar feitiços."
+    },
+    "Paladino": {
+        "descricao": "Paladinos são campeões do bem e da justiça, com habilidades de combate e poderes divinos."
+    }
+}
